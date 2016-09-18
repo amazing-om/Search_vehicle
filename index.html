@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Car Search</title>
+	<style type="text/css">
+		body{
+			font-size: 14px;
+		}
+		header{
+			    margin: 2em 2em 4em 2em;
+			    width: 100%;
+			    text-align: center;
+			    font-size: 20px;
+			}
+		div.vehicle-body, div.json-body{
+			margin: 1em;
+			width: 65%;
+			font-size: 14px;
+			border:1px solid #e8e1e1;
+			border-radius: 5px 5px 0 0;
+			height: 100%;
+		}
+		.vehicle-adder .form-inline {
+		    display: inline-block;
+		    line-height: 2em;
+		}
+		.vehicle-header{
+			height: 11em;
+			background: rgba(254,254,254,1);
+			background: -moz-linear-gradient(top, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 40%, rgba(219,219,219,1) 60%, rgba(226,226,226,1) 100%);
+			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(254,254,254,1)), color-stop(40%, rgba(209,209,209,1)), color-stop(60%, rgba(219,219,219,1)), color-stop(100%, rgba(226,226,226,1)));
+			background: -webkit-linear-gradient(top, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 40%, rgba(219,219,219,1) 60%, rgba(226,226,226,1) 100%);
+			background: -o-linear-gradient(top, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 40%, rgba(219,219,219,1) 60%, rgba(226,226,226,1) 100%);
+			background: -ms-linear-gradient(top, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 40%, rgba(219,219,219,1) 60%, rgba(226,226,226,1) 100%);
+			background: linear-gradient(to bottom, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 40%, rgba(219,219,219,1) 60%, rgba(226,226,226,1) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#e2e2e2', GradientType=0 );
+		}
+		label {
+			margin: 0 1em;
+		    display: block;
+		}
+		.vehicle-details {
+		    width: 15em;
+		    margin: 0.5em 0 1em 1em;
+		    line-height: 2em;
+    		border-radius: 5px;
+		}
+
+		.vehicle-adder {
+		    margin: 1em 1em 1em 2em;
+		}
+		.vehicle-adder form {
+		    width: 87%;
+		    border-bottom: 1px solid #efefef;
+		}
+		#filterTable{
+			float: right;
+    		margin: 0 10em;
+		}
+		select.vehicle-details {
+    		padding: 0.5em;
+		}
+		#plus_btn, #make_json{
+			margin: 0 0.8301em;
+			padding: 0.5em;
+    		border-radius: 5px;
+			color:#FFFFFF;
+			background: rgba(28,24,25,1);
+			background: -moz-linear-gradient(top, rgba(28,24,25,1) 0%, rgba(230,214,218,1) 0%, rgba(214,184,191,1) 0%, rgba(8,1,2,1) 100%);
+			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(28,24,25,1)), color-stop(0%, rgba(230,214,218,1)), color-stop(0%, rgba(214,184,191,1)), color-stop(100%, rgba(8,1,2,1)));
+			background: -webkit-linear-gradient(top, rgba(28,24,25,1) 0%, rgba(230,214,218,1) 0%, rgba(214,184,191,1) 0%, rgba(8,1,2,1) 100%);
+			background: -o-linear-gradient(top, rgba(28,24,25,1) 0%, rgba(230,214,218,1) 0%, rgba(214,184,191,1) 0%, rgba(8,1,2,1) 100%);
+			background: -ms-linear-gradient(top, rgba(28,24,25,1) 0%, rgba(230,214,218,1) 0%, rgba(214,184,191,1) 0%, rgba(8,1,2,1) 100%);
+			background: linear-gradient(to bottom, rgba(28,24,25,1) 0%, rgba(230,214,218,1) 0%, rgba(214,184,191,1) 0%, rgba(8,1,2,1) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1c1819', endColorstr='#080102', GradientType=0 );
+		}
+		::-webkit-input-placeholder { /* WebKit browsers */
+		    direction: rtl;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		    direction: rtl;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ but I'm not sure about working */
+		    direction: rtl;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10+ */
+		    direction: rtl;
+		}
+		input#search {
+    		float: right;
+    		width: 19.5em;
+		    margin: 0.5em 9em 1em 1em;
+		    line-height: 2em;
+    		border-radius: 5px;
+    	}
+    	table#vehicles_table {
+		    width: 100%;
+		    border: 1px solid #eee;
+		}
+		#vehicles_table td {
+		    font-size: 1.2em;
+		    border-right: 1px solid #eee;
+		    border-top: 1px solid #eee;
+		}
+		.json-body {
+		    border: none !important;
+		}
+		input#make_json {
+		    float: right;
+		}
+		.json-data.hidden {
+		    display: none;
+		}
+		.json-data {
+		    width: 100%;
+		    display: block;
+		    clear: both;
+		    margin-top: 1em;
+		}
+		textarea#textarea {
+		    width: 100%;
+		    height: 10em;
+		    overflow: visible;
+		}
+	</style>
+</head>
+<body>
+	<header> Vehicle Search</header>
+	<section>
+		<div class="vehicle-body">
+			<div class="vehicle-header">
+				<div class="vehicle-adder">
+					<form id="vehicles_form">
+						<div class="form-inline">
+							<label>Select Type</label>
+							<select class="vehicle-details" placeholder ="Select Type" name="type">
+								<option>Select a Type</option>
+								<option>New</option>
+								<option>Used</option>
+								<option>Certified</option>
+							</select>
+						</div>
+						<div class="form-inline">
+							<label>Make</label>
+							<input class="vehicle-details" type="text" name="make"/>
+						</div>
+						<div class="form-inline">
+							<label>Model</label>
+							<input class="vehicle-details" type="text" name="model"/>
+						</div>
+						<div class="form-inline">
+							<input id="plus_btn" type="submit" name="" value="&#x271A;" />
+						</div>
+						<input type="hidden" name="id_entry" value="1">
+					</form>
+				</div>
+				<div class="vehicle-search">
+					<form>
+	      				<input id="search" placeholder="&#x1f50e;" class="light-table-filter" data-table="order-table">
+	    			</form>
+				</div>
+			</div>
+			<div class="vehicle-table">
+				<table id="vehicles_table" class="order-table table">
+				</table>
+			</div>
+		</div>
+		<div class="json-body">
+			<div>
+				<input type="button" id="make_json" name="json" value="JSON" />
+			</div>
+			<div class="json-data hidden">
+				<textarea id="textarea"></textarea>
+			</div>
+		</div>
+		
+	</section>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript">
+		var Vehicle = {
+			    index: window.localStorage.getItem("Vehicle:index"),
+			    $table: document.getElementById("vehicles_table"),
+				$form: document.getElementById("vehicles_form"),
+				$save: document.getElementById("plus_btn"),
+				$json: document.getElementById("make_json"),
+				$textarea : document.getElementById("textarea"),
+
+		init: function() {
+			if (!Vehicle.index) {
+            		window.localStorage.setItem("Vehicle:index", Vehicle.index = 1);
+        		}
+        	Vehicle.$form.addEventListener("submit", function(event) {
+	            var entry = {
+	                id: parseInt(this.id_entry.value),
+	                type: this.type.value,
+	                make: this.make.value,
+	                model: this.model.value
+	             
+	            };
+
+                Vehicle.vehicleAdd(entry);
+                Vehicle.rowAdd(entry);
+                this.reset();
+            	this.id_entry.value = 0;
+            	event.preventDefault();
+
+            	}, true);
+
+        	Vehicle.$json.addEventListener("click", function(event) {
+	        	var jsonData = [], i, key;
+	        	for (i = 0; i < window.localStorage.length; i++) {
+						key = window.localStorage.key(i);
+							jsonData.push(JSON.parse(window.localStorage.getItem(key)));
+					}
+
+	        		Vehicle.getJson(jsonData);
+	        		event.preventDefault();
+        		}, true);
+
+        	if (window.localStorage.length - 1) {
+					var vehicle_list = [], i, key;
+					for (i = 0; i < window.localStorage.length; i++) {
+						key = window.localStorage.key(i);
+						if (/vehicles:\d+/.test(key)) {
+							vehicle_list .push(JSON.parse(window.localStorage.getItem(key)));
+						}
+					}
+
+					if (vehicle_list .length) {
+						vehicle_list 
+							.sort(function(a, b) {
+								return a.id < b.id ? -1 : (a.id > b.id ? 1 : 0);
+							})
+							.forEach(Vehicle.rowAdd);
+					}
+				}
+			},
+			vehicleAdd: function(entry) {
+				entry.id = Vehicle.index;
+				window.localStorage.setItem("Vehicle:index", ++Vehicle.index);
+				window.localStorage.setItem("Vehicle:"+ entry.id, JSON.stringify(entry));
+			},
+			rowAdd: function(entry) {
+				var $tr = document.createElement("tr"), $td, key;
+				
+			
+						$td = document.createElement("td");
+						$td.appendChild(document.createTextNode(entry.type));
+						$tr.appendChild($td);
+		
+
+				$td = document.createElement("td");
+					  $td.appendChild(document.createTextNode(entry.make));
+					  $tr.appendChild($td);
+
+				$td = document.createElement("td");
+					  $td.appendChild(document.createTextNode(entry.model));
+					  $tr.appendChild($td);
+					
+				Vehicle.$table.appendChild($tr);
+			},
+
+			getJson: function(jsonData){
+				var stringData = JSON.stringify(jsonData);
+            	Vehicle.$textarea.value=stringData;
+            	$(".json-data").removeClass("hidden");
+            	event.preventDefault();
+			 }
+	};
+	Vehicle.init();
+	(function(document) {
+	
+
+	var LightTableFilter = (function(Arr) {
+
+		var _input;
+
+		function _onInputEvent(e) {
+			_input = e.target;
+			var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+			Arr.forEach.call(tables, function(table) {
+					Arr.forEach.call(table.rows, _filter);
+			});
+		}
+
+		function _filter(row) {
+			var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+			row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+		}
+
+		return {
+			init: function() {
+				var inputs = document.getElementsByClassName('light-table-filter');
+				Arr.forEach.call(inputs, function(input) {
+					input.oninput = _onInputEvent;
+				});
+			}
+		};
+	})(Array.prototype);
+
+	document.addEventListener('readystatechange', function() {
+		if (document.readyState === 'complete') {
+			LightTableFilter.init();
+		}
+	});
+
+})(document);
+		
+	</script>
+</body>
+</html>
